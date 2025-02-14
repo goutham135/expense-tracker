@@ -4,8 +4,6 @@
 The **Flutter Expense Tracker** is a powerful and intuitive mobile application that allows users to manage their daily expenses efficiently. With Firebase integration, state management using Riverpod, and real-time currency conversion, this app ensures a seamless expense tracking experience.
 
 
-# Flutter Project
-
 ## 🚀 Getting Started
 This repository contains a Flutter project. Follow the steps below to set up and run the project on your local machine.
 
