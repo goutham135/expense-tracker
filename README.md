@@ -96,6 +96,16 @@ This app fetches real-time currency conversion rates from an external REST API.
 - **Implementation**:
   - Fetch rates and display converted expenses.
   - Supports USD, EUR, and GBP.
+ 
+## 🏗 Why Riverpod for State Management?
+We chose **Riverpod** as the state management solution for this project because:
+
+1. **Scalability & Maintainability** – The expense tracker involves multiple interacting features (e.g., filtering, sorting, authentication), and Riverpod’s unidirectional data flow makes it easier to manage and scale.
+2. **AutoDispose for Memory Optimization** – Riverpod automatically removes unused providers from memory, improving performance.
+3. **Better State Isolation** – Unlike `setState` or `Provider`, Riverpod rebuilds only the necessary UI components, improving efficiency.
+4. **Asynchronous Support** – Riverpod makes handling Firebase queries and API calls easier with `FutureProvider` and `StreamProvider`.
+5. **Testability** – Riverpod allows mocking and dependency injection, making unit testing simpler.
+
 
 ## 📜 License
 This project is licensed under the MIT License.
