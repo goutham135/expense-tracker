@@ -3,6 +3,67 @@
 ## 📌 Overview
 The **Flutter Expense Tracker** is a powerful and intuitive mobile application that allows users to manage their daily expenses efficiently. With Firebase integration, state management using Riverpod, and real-time currency conversion, this app ensures a seamless expense tracking experience.
 
+
+# Flutter Project
+
+## 🚀 Getting Started
+This repository contains a Flutter project. Follow the steps below to set up and run the project on your local machine.
+
+---
+
+## 📌 Prerequisites
+Ensure you have the following installed:
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) version 3.22.2
+- [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/)
+- Xcode (for iOS development)
+- A connected device or emulator
+
+To verify your setup, run:
+```sh
+flutter doctor
+```
+
+---
+
+## 🛠 Installation
+
+1. **Clone the Repository**
+```sh
+git clone https://github.com/your-username/your-repository.git
+cd your-repository
+```
+
+2. **Install Dependencies**
+```sh
+flutter pub get
+```
+
+3. **Run the Project**
+- For Android:
+  ```sh
+  flutter run
+  ```
+- For iOS (Mac required):
+  ```sh
+  cd ios && pod install && cd ..
+  flutter run
+  ```
+
+---
+
+## 📂 Project Structure
+```
+lib/
+│-- main.dart        # Entry point of the app
+│-- screens/         # UI screens
+│-- widgets/         # Reusable widgets
+│-- models/          # Data models
+│-- providers/       # State management (e.g., Riverpod, Bloc)
+│-- services/        # API & backend communication
+```
+
+
+
 ## 🚀 Features
 - **Expense Management**: Add, edit, and delete expenses with required fields.
 - **Firebase Firestore Integration**: Stores user-specific expenses securely.
