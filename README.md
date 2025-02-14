@@ -27,8 +27,8 @@ flutter doctor
 
 1. **Clone the Repository**
 ```sh
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone [https://github.com/your-username/your-repository.git](https://github.com/goutham135/expense-tracker.git)
+cd expense-tracker
 ```
 
 2. **Install Dependencies**
