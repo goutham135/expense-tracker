@@ -82,26 +82,7 @@ lib/
 - **REST API Integration**: Exchange Rate API
 - **Data Visualization**: fl_chart
 
-## 🏗️ Setup & Installation
-1. **Clone the repository**:
-   ```sh
-   git clone https://github.com/yourusername/flutter-expense-tracker.git
-   cd flutter-expense-tracker
-   ```
 
-2. **Install dependencies**:
-   ```sh
-   flutter pub get
-   ```
-
-3. **Set up Firebase**:
-   - Create a Firebase project.
-   - Enable Firestore & Authentication.
-   - Download `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) and place them in the respective folders.
-
-4. **Run the app**:
-   ```sh
-   flutter run
    ```
 
 ## 📊 API Integration (Exchange Rates)
