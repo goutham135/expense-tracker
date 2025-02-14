@@ -107,6 +107,30 @@ We chose **Riverpod** as the state management solution for this project because:
 5. **Testability** – Riverpod allows mocking and dependency injection, making unit testing simpler.
 
 
+## 🔥 Challenges Faced & Solutions
+
+### 1. **Handling Real-time Data from Firestore**
+
+**Challenge:** Keeping expenses updated in real time without unnecessary UI rebuilds. **Solution:** Used `StreamProvider` in Riverpod to listen to Firestore updates efficiently.
+
+### 2. **Filtering & Sorting Expenses**
+
+**Challenge:** Implementing dynamic filtering and sorting without performance lag. **Solution:** Used `StateNotifierProvider` to store filter and sort states, ensuring only the required UI components rebuild.
+
+### 3. **Managing Authentication State**
+
+**Challenge:** Handling Firebase authentication and maintaining user sessions. **Solution:** Used `StreamProvider` to listen for Firebase authentication state changes and redirect users accordingly.
+
+### 4. **Optimizing Performance in Large Data Sets**
+
+**Challenge:** Large data sets causing UI lag when displaying expenses. **Solution:** Used `ListView.builder` for lazy loading and pagination techniques to load data in chunks.
+
+### 5. **Currency Conversion with Exchange Rates**
+
+**Challenge:** Fetching and displaying expense amounts in different currencies. **Solution:** Integrated a public REST API for exchange rates and cached data to reduce API calls.
+
+
+
 ## 📜 License
 This project is licensed under the MIT License.
 
