@@ -27,7 +27,7 @@ flutter doctor
 
 1. **Clone the Repository**
 ```sh
-git clone [https://github.com/your-username/your-repository.git](https://github.com/goutham135/expense-tracker.git)
+git clone https://github.com/goutham135/expense-tracker.git
 cd expense-tracker
 ```
 
