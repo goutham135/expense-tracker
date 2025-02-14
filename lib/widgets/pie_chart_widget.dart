@@ -6,7 +6,7 @@ import '../models/expense.dart';
 class ExpensePieChart extends StatelessWidget {
   final List<Expense> expenses;
 
-  ExpensePieChart({required this.expenses});
+  const ExpensePieChart({super.key, required this.expenses});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,8 @@ class ExpensePieChart extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text("Expenses by Category", style: TextStyle(fontSize: 18)),
-            SizedBox(height: 20),
+            const Text("Expenses by Category", style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 20),
             SizedBox(
               height: 200,
               child: PieChart(

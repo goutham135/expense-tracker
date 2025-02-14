@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_management/screens/settings_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/auth_service.dart';
 import '../services/currency_service.dart';
 import '../services/expense_service.dart';
 import '../models/expense.dart';
+import '../widgets/expenses_widget.dart';
 import '../widgets/filters_widget.dart';
 import 'add_expense.dart';
 import 'login_screen.dart';
@@ -36,7 +38,7 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
     // TODO: implement initState
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 10), () {
+    Future.delayed(const Duration(milliseconds: 10), () {
       saveDeviceTokenToFirestore();
       getCurrencyRates();
       final expenseSnapshot = ref.watch(expenseStreamProvider);
@@ -75,15 +77,21 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
           await docRef.update({
             'fcmToken': fcmToken, // Store the token under each user's document
           });
-          print("FCM token updated successfully!");
+          if (kDebugMode) {
+            print("FCM token updated successfully!");
+          }
         } else {
           FirebaseFirestore.instance.collection('users').doc(userId).set({
             'fcmToken': fcmToken, // Store the token under each user's document
           });
-          print("FCM token created successfully!");
+          if (kDebugMode) {
+            print("FCM token created successfully!");
+          }
         }
       } catch (e) {
-        print("Error updating expense: $e");
+        if (kDebugMode) {
+          print("Error updating expense: $e");
+        }
       }
 
     }
@@ -206,7 +214,7 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
               await _authService.logOut();
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
                     (route) => false,
               );
             },
@@ -231,38 +239,10 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
                   itemBuilder: (context, index) {
                     final date = _filteredExpenses.keys.elementAt(index);
                     final expenses = _filteredExpenses[date]!;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                          child: Text(date, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        ),
-                        ...expenses.map((expense) => GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AddExpenseScreen(expense: expense,),));
-                          },
-                          child: ListTile(
-                            title: Text(expense.title),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('${expense.category} - ₹${expense.amount.toStringAsFixed(2)},'),
-                                if(_currencies["USD"] != null && _currencies["EUR"] != null && _currencies["GBP"] != null)Text('Other currencies: \$${ (expense.amount * _currencies["USD"]).toStringAsFixed(2)}, €${(expense.amount * _currencies["EUR"]).toStringAsFixed(2)}, £${(expense.amount * _currencies["GBP"]).toStringAsFixed(2)}'),
-                              ],
-                            ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                deleteExpense(expense.id);
-                              },
-                            ),
-                          ),
-                        )),
-                      ],
-                    );
+                    return Expenses(deleteExpense: deleteExpense, currencies: _currencies, date: date, expensesList: expenses,);
                   },
                 ),
+                if(_filteredExpenses.keys.isEmpty)const Center(child: Text('No expenses added yet.')),
                 if(status == 'Initiated' || status == 'Loading')const Center(child: CircularProgressIndicator()),
                 if(status == 'Error')const Center(child: Text('Error occurred. Please try again after some time.'))
               ],

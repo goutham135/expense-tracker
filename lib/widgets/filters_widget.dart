@@ -75,7 +75,7 @@ class _FiltersWidgetState extends ConsumerState<FiltersWidget> {
                 child: const Text('Apply Filters'),
               ),
               ElevatedButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseSummaryScreen(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ExpenseSummaryScreen(),));
               }, child: const Text('Expenses Summary Reports'))
             ],
           ),

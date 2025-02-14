@@ -3,6 +3,7 @@ import 'package:expense_management/screens/login_screen.dart';
 import 'package:expense_management/providers/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -25,7 +26,7 @@ void main() async {
   });
 
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 
@@ -34,7 +35,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterL
 void initializeLocalNotifications() {
   const AndroidInitializationSettings androidInitializationSettings =
   AndroidInitializationSettings('@mipmap/ic_launcher');
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
     android: androidInitializationSettings,
   );
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -62,30 +63,58 @@ void showLocalNotification(RemoteMessage message) {
 
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {
-  print('Background message received: ${message.notification?.title}');
+  if (kDebugMode) {
+    print('Background message received: ${message.notification?.title}');
+  }
 }
 FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 void requestPermission() async {
   NotificationSettings settings = await messaging.requestPermission();
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print("Permission granted");
+    if (kDebugMode) {
+      print("Permission granted");
+    }
   } else {
-    print("Permission denied");
+    if (kDebugMode) {
+      print("Permission denied");
+    }
   }
 }
 
-class MyApp extends ConsumerWidget  {
-  String userId = FirebaseAuth.instance.currentUser!.uid;
+class MyApp extends ConsumerStatefulWidget  {
+  const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  var userId = StateProvider((ref) => '',);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if(FirebaseAuth.instance.currentUser != null){
+        ref.read(userId.notifier).state = FirebaseAuth.instance.currentUser!.uid;
+      } else{
+        ref.read(userId.notifier).state = '';
+      }
+    },);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final themeMode = ref.watch(themeProvider);
+    final user = ref.watch(userId);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeMode,
-      home: userId != null ? ExpensesScreen() : LoginScreen(),
+      home: user != '' ? ExpensesScreen() : const LoginScreen(),
     );
   }
 }

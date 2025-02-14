@@ -22,14 +22,14 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   TextEditingController date = TextEditingController();
   TextEditingController title = TextEditingController();
   TextEditingController amount = TextEditingController();
-  var _category = StateProvider((ref) => 'Food',);
+  final _category = StateProvider((ref) => 'Food',);
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 10), () {
+    Future.delayed(const Duration(milliseconds: 10), () {
       if(widget.expense != null){
         title.text = widget.expense!.title.toString();
         amount.text = widget.expense!.amount.toString();
@@ -72,7 +72,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   Widget build(BuildContext context) {
     String category = ref.watch(_category);
     return Scaffold(
-      appBar: AppBar(title: Text('Add Expense')),
+      appBar: AppBar(title: const Text('Add Expense')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -80,12 +80,12 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) => value!.isEmpty ? 'Title is required' : null,
                 controller: title,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Amount'),
+                decoration: const InputDecoration(labelText: 'Amount'),
                 keyboardType: TextInputType.number,
                 validator: (value) => value!.isEmpty ? 'Amount is required' : null,
                 controller: amount,
@@ -96,10 +96,10 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   return DropdownMenuItem(value: cat, child: Text(cat));
                 }).toList(),
                 onChanged: (value) => ref.read(_category.notifier).state = value.toString(),
-                decoration: InputDecoration(labelText: 'Category'),
+                decoration: const InputDecoration(labelText: 'Category'),
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Select Date'),
+                decoration: const InputDecoration(labelText: 'Select Date'),
                 readOnly: true,
                 controller: date,
                 onTap: () async {
@@ -111,7 +111,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   );
                   if (pickedDate != null) {
                     setState(() => selectedDate = pickedDate);
-                    date.text = pickedDate.toString();
+                    date.text = pickedDate.toString().split(' ')[0];
                   }
                 },
               ),
@@ -129,7 +129,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               //   },
               //   child: Text('Pick Date'),
               // ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
                 child: Text(widget.expense != null ? 'Update Expense' : 'Add Expense'),

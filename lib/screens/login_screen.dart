@@ -18,6 +18,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   var error = StateProvider((ref) => '',);
   final _formKey = GlobalKey<FormState>();
+  var loader = StateProvider((ref) => false,);
 
   void handleLogin() async {
     String email = emailController.text.trim();
@@ -28,12 +29,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       // } else if(password.isEmpty){
       //   ref.read(error.notifier).state = "Please enter password.";
       // } else{
-        var result = await _authService.logIn(email, password);
+      ref.read(loader.notifier).state = true;
+      var result = await _authService.logIn(email, password);
         if(result == null){
           ref.read(error.notifier).state = "Invalid email or password.";
         }else if (result is String) {
           ref.read(error.notifier).state = result;
         } else {
+          ref.read(loader.notifier).state = false;
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ExpensesScreen(),), (route) => false,);
         }
       // }
@@ -59,38 +62,44 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     String errorMsg = ref.watch(error);
+    bool isLoading = ref.watch(loader);
     return Scaffold(
       appBar: AppBar(title: const Text("Login")),
-      body: Center(
-        child: Card(
-          margin: const EdgeInsets.all(20.0),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    controller: emailController,
-                    decoration: const InputDecoration(labelText: "Email"),
-                    validator: (value) => value!.isEmpty ? 'Email is required' : null,
+      body: Stack(
+        children: [
+          Center(
+            child: Card(
+              margin: const EdgeInsets.all(20.0),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        controller: emailController,
+                        decoration: const InputDecoration(labelText: "Email"),
+                        validator: (value) => value!.isEmpty ? 'Email is required' : null,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: const InputDecoration(labelText: "Password"),
+                        obscureText: true,
+                        validator: (value) => value!.isEmpty ? 'Password is required' : null,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(onPressed: handleLogin, child: const Text("Login")),
+                      if (errorMsg.isNotEmpty) Text(errorMsg, style: const TextStyle(color: Colors.red)),
+                      ElevatedButton(onPressed: gotoSignUp, child: const Text("Create account? Sign Up")),
+                    ],
                   ),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: const InputDecoration(labelText: "Password"),
-                    obscureText: true,
-                    validator: (value) => value!.isEmpty ? 'Password is required' : null,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(onPressed: handleLogin, child: const Text("Login")),
-                  if (errorMsg.isNotEmpty) Text(errorMsg, style: const TextStyle(color: Colors.red)),
-                  ElevatedButton(onPressed: gotoSignUp, child: const Text("Create account? Sign Up")),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+          if(isLoading)const Center(child: CircularProgressIndicator())
+        ],
       ),
     );
   }

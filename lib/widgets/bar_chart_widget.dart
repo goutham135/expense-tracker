@@ -5,7 +5,7 @@ import '../models/expense.dart';
 class ExpenseBarChart extends StatelessWidget {
   final List<Expense> expenses;
 
-  ExpenseBarChart({required this.expenses});
+  const ExpenseBarChart({super.key, required this.expenses});
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class ExpenseBarChart extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text("Daily Expenses", style: TextStyle(fontSize: 18)),
-            SizedBox(height: 20),
+            const Text("Daily Expenses", style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 20),
             SizedBox(
               height: 200,
               child: BarChart(
                 BarChartData(
                   barGroups: barGroups,
-                  titlesData: FlTitlesData(
+                  titlesData: const FlTitlesData(
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(showTitles: true),
                     ),
