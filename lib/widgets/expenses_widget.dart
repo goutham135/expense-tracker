@@ -7,7 +7,7 @@ import "../screens/add_expense.dart";
 class Expenses extends StatelessWidget {
   String date;
   List expensesList;
-  var currencies;
+  Map currencies;
   Function deleteExpense;
 
 
@@ -35,7 +35,7 @@ class Expenses extends StatelessWidget {
 }
 
 class ExpenseDetails extends StatelessWidget {
-  var currencies;
+  Map currencies;
   Expense expense;
   Function deleteExpense;
 
@@ -57,7 +57,7 @@ class ExpenseDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('${expense.category} - ₹${expense.amount.toStringAsFixed(2)},'),
-            if(currencies["USD"] != null && currencies["EUR"] != null && currencies["GBP"] != null)Text('Other currencies: \$${ (expense.amount * currencies["USD"]).toStringAsFixed(2)}, €${(expense.amount * currencies["EUR"]).toStringAsFixed(2)}, £${(expense.amount * currencies["GBP"]).toStringAsFixed(2)}'),
+            if((currencies["USD"] != null && currencies["EUR"] != null && currencies["GBP"] != null) || (currencies["USD"] == 0.0 && currencies["EUR"] != 0.0 && currencies["GBP"] != 0.0))Text('Other currencies: \$${ (expense.amount * currencies["USD"]).toStringAsFixed(2)}, €${(expense.amount * currencies["EUR"]).toStringAsFixed(2)}, £${(expense.amount * currencies["GBP"]).toStringAsFixed(2)}'),
           ],
         ),
         trailing: IconButton(

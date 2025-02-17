@@ -244,7 +244,7 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
                 ),
                 if(_filteredExpenses.keys.isEmpty)const Center(child: Text('No expenses added yet.')),
                 if(status == 'Initiated' || status == 'Loading')const Center(child: CircularProgressIndicator()),
-                if(status == 'Error')const Center(child: Text('Error occurred. Please try again after some time.'))
+                // if(status == 'Error')const Center(child: Text('Error occurred. Please try again after some time.'))
               ],
             ),
           ),

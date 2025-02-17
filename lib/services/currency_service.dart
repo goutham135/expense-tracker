@@ -26,7 +26,11 @@ class ExchangeRateService extends ChangeNotifier{
       } else {
         status = 'Error';
         notifyListeners();
-        throw Exception("Failed to load exchange rates");
+        return {
+          "USD": 0.0,
+          "EUR": 0.0,
+          "GBP": 0.0,
+        };
       }
     } catch (e) {
       throw Exception("Error fetching exchange rates: $e");
