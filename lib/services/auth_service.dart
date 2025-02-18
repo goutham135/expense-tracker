@@ -66,6 +66,8 @@ class AuthService {
         return 'This email is already registered.';
       case 'weak-password':
         return 'The password is too weak.';
+      case 'invalid-credential':
+        return 'Invalid credentials. Please enter correct email and password';
       default:
         return 'An unknown error occurred.';
     }

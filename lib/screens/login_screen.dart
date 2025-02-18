@@ -31,12 +31,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       // } else{
       ref.read(loader.notifier).state = true;
       var result = await _authService.logIn(email, password);
-        if(result == null){
+      ref.read(loader.notifier).state = false;
+      if(result == null){
           ref.read(error.notifier).state = "Invalid email or password.";
         }else if (result is String) {
           ref.read(error.notifier).state = result;
         } else {
-          ref.read(loader.notifier).state = false;
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ExpensesScreen(),), (route) => false,);
         }
       // }
@@ -88,9 +88,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         obscureText: true,
                         validator: (value) => value!.isEmpty ? 'Password is required' : null,
                       ),
+                      if (errorMsg.isNotEmpty) Text(errorMsg, style: const TextStyle(color: Colors.red)),
                       const SizedBox(height: 20),
                       ElevatedButton(onPressed: handleLogin, child: const Text("Login")),
-                      if (errorMsg.isNotEmpty) Text(errorMsg, style: const TextStyle(color: Colors.red)),
                       ElevatedButton(onPressed: gotoSignUp, child: const Text("Create account? Sign Up")),
                     ],
                   ),

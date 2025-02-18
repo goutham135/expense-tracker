@@ -100,7 +100,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       if(FirebaseAuth.instance.currentUser != null){
         ref.read(userId.notifier).state = FirebaseAuth.instance.currentUser!.uid;
       } else{
-        ref.read(userId.notifier).state = '';
+        ref.read(userId.notifier).state = '0';
       }
     },);
   }
@@ -114,7 +114,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeMode,
-      home: user != '' ? ExpensesScreen() : const LoginScreen(),
+      home: user == '' ? Image.asset('assets/images/appIcon.png') : user == '0' ?  const LoginScreen() : ExpensesScreen(),
     );
   }
 }
